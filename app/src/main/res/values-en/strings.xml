@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Collection</string>
+    <string name="home">Home</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="load_image">Load image</string>
+    <string name="search">Search</string>
+    <string name="no_search_results_found">No results found</string>
+    <string name="select">Select</string>
+
+    <!--Collection-->
+    <string name="my_collections">My collections</string>
+    <string name="no_collections_yet">There\'s no collections yet!</string>
+    <string name="new_collection">New collection</string>
+    <string name="collection_title">Title</string>
+    <string name="collection_desc">Description</string>
+
+    <!--photocard-->
+    <string name="new_photocard">New photocard</string>
+    <string name="add_photocard">Add photocard</string>
+    <string name="add_photocard_template">Add a template</string>
+    <string name="no_photocards_yet">There\'s no photocards yet</string>
+</resources>

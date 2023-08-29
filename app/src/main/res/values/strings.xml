@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">My Collection</string>
+    <string name="home">Inicio</string>
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="load_image">Cargar imagen</string>
+    <string name="search">Buscar</string>
+    <string name="no_search_results_found">No hay resultados</string>
+    <string name="select">Seleccionar</string>
+
+    <!--Collection-->
+    <string name="my_collections">Mis colecciones</string>
+    <string name="no_collections_yet">¡Aún no hay ninguna colección!</string>
+    <string name="new_collection">Nueva colección</string>
+    <string name="collection_title">Título</string>
+    <string name="collection_desc">Descripción</string>
+
+    <!--Photocard-->
+    <string name="new_photocard">Nueva photocard</string>
+    <string name="add_photocard">Añadir una photocard</string>
+    <string name="add_photocard_template">Añadir una plantilla</string>
+    <string name="no_photocards_yet">¡Aún no hay ninguna photocard!</string>
+</resources>
