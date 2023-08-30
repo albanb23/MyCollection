@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.LocalShipping
 import androidx.compose.material.icons.filled.Paid
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -118,6 +119,7 @@ fun PhotocardItem(
                 if (selected) {
                     Icon(
                         imageVector = if (pcSelected) Icons.Default.CheckCircle else Icons.Default.RadioButtonUnchecked,
+                        tint = MaterialTheme.colorScheme.primary,
                         contentDescription = null,
                         modifier = Modifier
                             .align(Alignment.TopEnd)

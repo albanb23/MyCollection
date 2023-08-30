@@ -1,6 +1,5 @@
 package com.albab.mycollection.view.collection.list
 
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -10,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.albab.mycollection.domain.model.Collection
 import com.albab.mycollection.view.collection.CollectionViewModel
+import com.albab.mycollection.view.common.Loading
 import com.albab.mycollection.view.common.SearchModelState
 import com.albab.mycollection.view.common.SearchScreen
 
@@ -54,7 +54,7 @@ fun CollectionListScreen(
 
         is CollectionsUIState.Error -> {}
         CollectionsUIState.Loading -> {
-            CircularProgressIndicator()
+            Loading()
         }
     }
 }

@@ -3,22 +3,15 @@ package com.albab.mycollection.view.photocard.details
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.LocalShipping
-import androidx.compose.material.icons.filled.Paid
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,10 +21,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.albab.mycollection.R
+import com.albab.mycollection.config.util.ImageConverter
 import com.albab.mycollection.config.util.PhotocardStatus
 import com.albab.mycollection.domain.model.Photocard
 import com.albab.mycollection.view.ui.theme.pastel_blue
@@ -54,6 +52,8 @@ fun RotateButtonsAnimation(
     modifier: Modifier = Modifier
 ) {
     var start by remember { mutableStateOf(false) }
+    val bitmap = ImageConverter.base64ToBitmap(photocard.image)
+
     LaunchedEffect(Unit) {
         start = true
     }
@@ -61,6 +61,14 @@ fun RotateButtonsAnimation(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+        Image(
+            bitmap = bitmap.asImageBitmap(),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .clip(CircleShape)
+                .size(220.dp)
+        )
         FABAnimated(
             degrees = 270F,
             start = start,
@@ -71,7 +79,7 @@ fun RotateButtonsAnimation(
                 updateStatus(photocard)
             },
             color = pastel_pink,
-            icon = Icons.Filled.Bookmark
+            icon = R.drawable.ic_bookmark
         )
         FABAnimated(
             degrees = 180F,
@@ -83,7 +91,7 @@ fun RotateButtonsAnimation(
                 updateStatus(photocard)
             },
             color = pastel_blue,
-            icon = Icons.Filled.Paid
+            icon = R.drawable.ic_money
         )
         FABAnimated(
             degrees = 225F,
@@ -95,7 +103,7 @@ fun RotateButtonsAnimation(
                 updateStatus(photocard)
             },
             color = pastel_purple,
-            icon = Icons.Filled.LocalShipping
+            icon = R.drawable.ic_envelope
         )
         FABAnimated(
             degrees = 135F,
@@ -107,24 +115,22 @@ fun RotateButtonsAnimation(
                 updateStatus(photocard)
             },
             color = pastel_green,
-            icon = Icons.Filled.Done
+            icon = R.drawable.ic_check
         )
         FABAnimated(
             degrees = 45F,
             start = start,
             onClick = onEdit,
             color = pastel_orange,
-            icon = Icons.Filled.Edit
+            icon = R.drawable.ic_edit
         )
         FABAnimated(
             degrees = 0F,
             start = start,
             onClick = onDelete,
             color = pastel_red,
-            icon = Icons.Filled.Delete
+            icon = R.drawable.ic_delete
         )
-
-        //Button close
         FloatingActionButton(
             onClick = onClose,
             backgroundColor = pastel_yellow,
@@ -133,7 +139,11 @@ fun RotateButtonsAnimation(
                 .size(60.dp)
                 .align(Alignment.Center)
         ) {
-            Icon(imageVector = Icons.Filled.Close, contentDescription = null)
+            Image(
+                painter = painterResource(id = R.drawable.ic_close),
+                contentDescription = null,
+                modifier = Modifier.padding(14.dp)
+            )
         }
     }
 }
@@ -144,7 +154,7 @@ fun FABAnimated(
     start: Boolean,
     disabled: Boolean = false,
     onClick: () -> Unit,
-    icon: ImageVector,
+    icon: Int,
     color: Color = MaterialTheme.colors.secondary,
     contentColor: Color = contentColorFor(color),
 ) {
@@ -166,6 +176,10 @@ fun FABAnimated(
             }
             .alpha(if (disabled) 0.5f else 1f)
     ) {
-        Icon(imageVector = icon, contentDescription = null)
+        Image(
+            painter = painterResource(id = icon),
+            contentDescription = null,
+            modifier = Modifier.padding(14.dp)
+        )
     }
 }

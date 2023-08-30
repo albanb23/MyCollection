@@ -24,6 +24,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -52,87 +53,89 @@ fun CollectionDetails(
 ) {
     var showAddPhotocardDialog by rememberSaveable { mutableStateOf(false) }
     var selected by rememberSaveable { mutableStateOf(false) }
-    var showAll by rememberSaveable { mutableStateOf(false) }
+    val showAll by photocardViewModel.showAll.collectAsState()
 
     val photocardsFiltered = photocards.filter { pc -> pc.status != PhotocardStatus.RECEIVED }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            MyTopApBar(
-                title = null,
-                titleString = collection.title,
-                topIcon = Icons.Default.ArrowBack,
-                topAction = { onBackPressed() },
-                optionAction = {
-                    Row {
-                        Spacer(modifier = Modifier.weight(1f))
-                        IconButton(onClick = { showAll = !showAll }) {
-                            Icon(
-                                imageVector = if (showAll) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                                contentDescription = null
-                            )
-                        }
-                        Button(
-                            onClick = { selected = !selected }
-                        ) {
-                            Text(
-                                text = if (selected) stringResource(id = R.string.cancel) else stringResource(
-                                    id = R.string.select
-                                ),
-                                style = MaterialTheme.typography.labelSmall
-                            )
-                        }
+    Column(Modifier.fillMaxSize()) {
+        MyTopApBar(
+            title = null,
+            titleString = collection.title,
+            topIcon = Icons.Default.ArrowBack,
+            topAction = onBackPressed,
+            optionAction = {
+                Row {
+                    Spacer(modifier = Modifier.weight(1f))
+                    IconButton(onClick = { photocardViewModel.showAllClicked() }) {
+                        Icon(
+                            imageVector = if (showAll) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                            contentDescription = null
+                        )
+                    }
+                    Button(
+                        onClick = { selected = !selected }
+                    ) {
+                        Text(
+                            text = if (selected) stringResource(id = R.string.cancel) else stringResource(
+                                id = R.string.select
+                            ),
+                            style = MaterialTheme.typography.labelSmall
+                        )
                     }
                 }
-            )
-            Text(
-                text = collection.title,
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(vertical = 16.dp)
-            )
-            PhotocardList(
-                photocards = if (showAll) photocards else photocardsFiltered,
-                updatePhotocard = {
-                    photocardViewModel.updatePhotocard(it)
-                },
-                selected = selected,
-                onPCSelected = { pcSelected, pc ->
-                    photocardViewModel.onPCSelected(pcSelected, pc)
-                },
-                deletePc = {
-                    photocardViewModel.deletePhotocard(it)
-                }
-            )
-        }
-        if (!selected) {
-            ButtonsLayout(
-                onAddItem = { showAddPhotocardDialog = true },
-                onAddTemplate = {
-                    navigateToTemplate("${collection.collectionId}")
-                },
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp)
-            )
-        } else {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
-            ) {
-                Spacer(modifier = Modifier.weight(1f))
-                IconButton(
-                    onClick = {
-                        photocardViewModel.deleteSelectedPhotocards()
-                        selected = false
+            }
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = collection.title,
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.padding(vertical = 16.dp)
+                )
+                PhotocardList(
+                    photocards = if (showAll) photocards else photocardsFiltered,
+                    updatePhotocard = {
+                        photocardViewModel.updatePhotocard(it)
                     },
-                    modifier = Modifier.padding(8.dp)
+                    selected = selected,
+                    onPCSelected = { pcSelected, pc ->
+                        photocardViewModel.onPCSelected(pcSelected, pc)
+                    },
+                    deletePc = {
+                        photocardViewModel.deletePhotocard(it)
+                    }
+                )
+            }
+            if (!selected) {
+                ButtonsLayout(
+                    onAddItem = { showAddPhotocardDialog = true },
+                    onAddTemplate = {
+                        navigateToTemplate("${collection.collectionId}")
+                    },
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(16.dp)
+                )
+            } else {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
                 ) {
-                    Icon(imageVector = Icons.Default.Delete, contentDescription = null)
+                    Spacer(modifier = Modifier.weight(1f))
+                    IconButton(
+                        onClick = {
+                            photocardViewModel.deleteSelectedPhotocards()
+                            selected = false
+                        },
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Icon(imageVector = Icons.Default.Delete, contentDescription = null)
+                    }
                 }
             }
         }

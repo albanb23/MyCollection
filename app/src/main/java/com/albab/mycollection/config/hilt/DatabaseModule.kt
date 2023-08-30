@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.albab.mycollection.config.db.AppDatabase
 import com.albab.mycollection.domain.dao.CollectionDao
+import com.albab.mycollection.domain.dao.CollectionParentDao
 import com.albab.mycollection.domain.dao.CollectionPhotocardDao
 import com.albab.mycollection.domain.dao.PhotocardDao
 import dagger.Module
@@ -30,6 +31,11 @@ class DatabaseModule {
     @Provides
     fun provideCollectionPhotocardDao(appDatabase: AppDatabase): CollectionPhotocardDao {
         return appDatabase.collectionPhotocardDao()
+    }
+
+    @Provides
+    fun provideCollectionParentDao(appDatabase: AppDatabase): CollectionParentDao {
+        return appDatabase.collectionParentDao()
     }
 
     @Provides

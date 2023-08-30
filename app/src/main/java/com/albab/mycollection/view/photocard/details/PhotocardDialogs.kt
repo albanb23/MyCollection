@@ -76,7 +76,6 @@ fun EditPhotocardDialog(
 ) {
     var title by remember { mutableStateOf(photocard.title) }
     var description: String? by remember { mutableStateOf(photocard.description) }
-    var titleError by remember { mutableStateOf(false) }
     Dialog(onDismissRequest = { onDismiss() }) {
         Surface(shape = RoundedCornerShape(25.dp)) {
             Column(
@@ -92,7 +91,6 @@ fun EditPhotocardDialog(
                         title = it
                     },
                     modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
-                    isError = titleError,
                     singleLine = true,
                     label = {
                         Text(text = stringResource(id = R.string.collection_title))
@@ -113,12 +111,8 @@ fun EditPhotocardDialog(
                         Text(text = stringResource(id = R.string.cancel))
                     }
                     TextButton(onClick = {
-                        if (title.isBlank()) {
-                            titleError = true
-                        } else {
-                            onUpdate(title, description)
-                            onDismiss()
-                        }
+                        onUpdate(title, description)
+                        onDismiss()
                     }) {
                         Text(text = stringResource(id = R.string.accept))
                     }
@@ -138,7 +132,6 @@ fun AddPhotocardDialog(
     val context = LocalContext.current
     var title by remember { mutableStateOf("") }
     var description: String? by remember { mutableStateOf(null) }
-    var titleError by remember { mutableStateOf(false) }
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     var bitmap by remember { mutableStateOf<Bitmap?>(null) }
     var image by remember { mutableStateOf("") }
@@ -165,7 +158,6 @@ fun AddPhotocardDialog(
                         title = it
                     },
                     modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
-                    isError = titleError,
                     singleLine = true,
                     label = {
                         Text(text = stringResource(id = R.string.collection_title))
@@ -231,9 +223,7 @@ fun AddPhotocardDialog(
                         Text(text = stringResource(id = R.string.cancel))
                     }
                     TextButton(onClick = {
-                        if (title.isBlank()) {
-                            titleError = true
-                        } else if (image.isBlank()) {
+                        if (image.isBlank()) {
                             imageError = true
                         } else {
                             addPhotocard(title, description, image)

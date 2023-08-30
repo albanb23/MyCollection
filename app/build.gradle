@@ -103,7 +103,7 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$nav_version"
 
     //Lottie
-    implementation 'com.airbnb.android:lottie-compose:5.2.0'
+    implementation 'com.airbnb.android:lottie-compose:6.0.0'
 
     //Biometric
     implementation 'androidx.biometric:biometric:1.2.0-alpha03'

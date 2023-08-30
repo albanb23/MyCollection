@@ -45,6 +45,9 @@ class PhotocardViewModel @Inject constructor(
     private val _pcsSelected = MutableStateFlow<ArrayList<Photocard>>(arrayListOf())
     val pcsSelected: StateFlow<ArrayList<Photocard>> get() = _pcsSelected
 
+    private val _showAll = MutableStateFlow(true)
+    val showAll: StateFlow<Boolean> get() = _showAll
+
     private val _showLoading = MutableStateFlow(false)
     val showLoading: StateFlow<Boolean> get() = _showLoading
 
@@ -57,6 +60,10 @@ class PhotocardViewModel @Inject constructor(
                 SharingStarted.WhileSubscribed(5000),
                 PhotocardListUIState.Loading
             )
+    }
+
+    fun showAllClicked() {
+        _showAll.value = !_showAll.value
     }
 
     fun getPhotocardById(pcId: String) {
@@ -80,7 +87,7 @@ class PhotocardViewModel @Inject constructor(
                     image,
                     null,
                     LocalDateTime.now().toString(),
-                    collectionId,
+                    collectionId
                 )
             )
         }

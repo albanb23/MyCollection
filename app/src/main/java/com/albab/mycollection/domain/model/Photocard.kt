@@ -16,7 +16,8 @@ import java.time.LocalDateTime
             entity = Collection::class,
             parentColumns = ["collection_id"],
             childColumns = ["collection_parent_id"],
-            onDelete = CASCADE
+            onDelete = CASCADE,
+            onUpdate = CASCADE
         )
     ]
 )

@@ -2,7 +2,6 @@ package com.albab.mycollection.view.collection.details
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
@@ -10,6 +9,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.albab.mycollection.view.collection.CollectionViewModel
+import com.albab.mycollection.view.common.Loading
 import com.albab.mycollection.view.photocard.PhotocardViewModel
 import com.albab.mycollection.view.photocard.list.PhotocardListUIState
 
@@ -62,7 +62,7 @@ fun CollectionDetailsScreen(
 
         is CollectionDetailsUIState.Error -> {}
         CollectionDetailsUIState.Loading -> {
-            CircularProgressIndicator()
+            Loading()
         }
     }
 }
