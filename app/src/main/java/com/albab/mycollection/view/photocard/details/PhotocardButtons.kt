@@ -31,30 +31,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import com.albab.mycollection.config.util.PhotocardStatus
 import com.albab.mycollection.domain.model.Photocard
 import kotlin.math.cos
 import kotlin.math.sin
-
-@Composable
-fun PhotocardDialog(
-    photocard: Photocard,
-    onDismiss: () -> Unit,
-    updateStatus: (Photocard) -> Unit,
-    onDelete: () -> Unit,
-    onEdit: () -> Unit
-) {
-    Dialog(onDismissRequest = onDismiss) {
-        RotateButtonsAnimation(
-            photocard = photocard,
-            updateStatus = updateStatus,
-            onClose = onDismiss,
-            onEdit = onEdit,
-            onDelete = onDelete
-        )
-    }
-}
 
 @Composable
 fun RotateButtonsAnimation(

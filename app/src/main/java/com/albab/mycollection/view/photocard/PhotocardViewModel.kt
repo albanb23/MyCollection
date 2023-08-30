@@ -71,7 +71,7 @@ class PhotocardViewModel @Inject constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun addPhotocard(title: String, description: String?, image: String, collectionId: String) {
+    fun addPhotocard(title: String, description: String?, image: String, collectionId: Long) {
         viewModelScope.launch {
             photocardRepository.addPhotocard(
                 Photocard(
@@ -80,7 +80,7 @@ class PhotocardViewModel @Inject constructor(
                     image,
                     null,
                     LocalDateTime.now().toString(),
-                    collectionId.toLong(),
+                    collectionId,
                 )
             )
         }
@@ -178,7 +178,7 @@ class PhotocardViewModel @Inject constructor(
                         abs(rectangle.size.width).toInt(),
                         abs(rectangle.size.height).toInt()
                     )
-                addPhotocard("", null, ImageConverter.bitmapToBase64(imageCropped), collectionId)
+                addPhotocard("", null, ImageConverter.bitmapToBase64(imageCropped), collectionId.toLong())
             }
         }
         restartAllRectangles()

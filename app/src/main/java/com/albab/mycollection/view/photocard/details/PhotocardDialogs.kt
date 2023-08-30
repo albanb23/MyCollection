@@ -46,14 +46,93 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.albab.mycollection.R
 import com.albab.mycollection.config.util.ImageConverter
-import com.albab.mycollection.view.photocard.PhotocardViewModel
+import com.albab.mycollection.domain.model.Photocard
+
+@Composable
+fun PhotocardDialog(
+    photocard: Photocard,
+    onDismiss: () -> Unit,
+    updateStatus: (Photocard) -> Unit,
+    onDelete: () -> Unit,
+    onEdit: () -> Unit
+) {
+    Dialog(onDismissRequest = onDismiss) {
+        RotateButtonsAnimation(
+            photocard = photocard,
+            updateStatus = updateStatus,
+            onClose = onDismiss,
+            onEdit = onEdit,
+            onDelete = onDelete
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EditPhotocardDialog(
+    photocard: Photocard,
+    onDismiss: () -> Unit,
+    onUpdate: (String, String?) -> Unit
+) {
+    var title by remember { mutableStateOf(photocard.title) }
+    var description: String? by remember { mutableStateOf(photocard.description) }
+    var titleError by remember { mutableStateOf(false) }
+    Dialog(onDismissRequest = { onDismiss() }) {
+        Surface(shape = RoundedCornerShape(25.dp)) {
+            Column(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = stringResource(id = R.string.edit_photocard))
+                OutlinedTextField(
+                    value = title,
+                    onValueChange = {
+                        title = it
+                    },
+                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
+                    isError = titleError,
+                    singleLine = true,
+                    label = {
+                        Text(text = stringResource(id = R.string.collection_title))
+                    }
+                )
+                OutlinedTextField(
+                    value = description ?: "",
+                    onValueChange = { description = it },
+                    modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
+                    singleLine = true,
+                    label = {
+                        Text(text = stringResource(id = R.string.collection_desc))
+                    }
+                )
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Spacer(modifier = Modifier.weight(1f))
+                    TextButton(onClick = { onDismiss() }) {
+                        Text(text = stringResource(id = R.string.cancel))
+                    }
+                    TextButton(onClick = {
+                        if (title.isBlank()) {
+                            titleError = true
+                        } else {
+                            onUpdate(title, description)
+                            onDismiss()
+                        }
+                    }) {
+                        Text(text = stringResource(id = R.string.accept))
+                    }
+                }
+            }
+        }
+    }
+}
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddPhotocardDialog(
-    collectionId: String,
-    photocardViewModel: PhotocardViewModel,
+    addPhotocard: (String, String?, String) -> Unit,
     onDismiss: () -> Unit
 ) {
     val context = LocalContext.current
@@ -157,7 +236,7 @@ fun AddPhotocardDialog(
                         } else if (image.isBlank()) {
                             imageError = true
                         } else {
-                            photocardViewModel.addPhotocard(title, description, image, collectionId)
+                            addPhotocard(title, description, image)
                             onDismiss()
                         }
                     }) {

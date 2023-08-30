@@ -37,8 +37,8 @@ import com.albab.mycollection.config.util.PhotocardStatus
 import com.albab.mycollection.domain.model.Collection
 import com.albab.mycollection.domain.model.Photocard
 import com.albab.mycollection.view.common.MyTopApBar
-import com.albab.mycollection.view.photocard.details.AddPhotocardDialog
 import com.albab.mycollection.view.photocard.PhotocardViewModel
+import com.albab.mycollection.view.photocard.details.AddPhotocardDialog
 import com.albab.mycollection.view.photocard.list.PhotocardList
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -54,7 +54,7 @@ fun CollectionDetails(
     var selected by rememberSaveable { mutableStateOf(false) }
     var showAll by rememberSaveable { mutableStateOf(false) }
 
-    val photocardsFiltered = photocards.filter { pc -> pc.status!=PhotocardStatus.RECEIVED }
+    val photocardsFiltered = photocards.filter { pc -> pc.status != PhotocardStatus.RECEIVED }
 
     Box(
         modifier = Modifier
@@ -66,7 +66,7 @@ fun CollectionDetails(
                 title = null,
                 titleString = collection.title,
                 topIcon = Icons.Default.ArrowBack,
-                topAction = {onBackPressed()},
+                topAction = { onBackPressed() },
                 optionAction = {
                     Row {
                         Spacer(modifier = Modifier.weight(1f))
@@ -80,7 +80,9 @@ fun CollectionDetails(
                             onClick = { selected = !selected }
                         ) {
                             Text(
-                                text = if (selected) stringResource(id = R.string.cancel) else stringResource(id = R.string.select),
+                                text = if (selected) stringResource(id = R.string.cancel) else stringResource(
+                                    id = R.string.select
+                                ),
                                 style = MaterialTheme.typography.labelSmall
                             )
                         }
@@ -94,7 +96,7 @@ fun CollectionDetails(
             )
             PhotocardList(
                 photocards = if (showAll) photocards else photocardsFiltered,
-                updateStatus = {
+                updatePhotocard = {
                     photocardViewModel.updatePhotocard(it)
                 },
                 selected = selected,
@@ -138,9 +140,15 @@ fun CollectionDetails(
 
     if (showAddPhotocardDialog) {
         AddPhotocardDialog(
-            collectionId = "${collection.collectionId}",
-            photocardViewModel = photocardViewModel,
-            onDismiss = { showAddPhotocardDialog = false })
+            addPhotocard = { title, description, image ->
+                photocardViewModel.addPhotocard(
+                    title,
+                    description,
+                    image,
+                    collection.collectionId!!
+                )
+            }
+        ) { showAddPhotocardDialog = false }
     }
 }
 

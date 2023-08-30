@@ -43,12 +43,13 @@ import com.albab.mycollection.R
 import com.albab.mycollection.config.util.ImageConverter
 import com.albab.mycollection.config.util.PhotocardStatus
 import com.albab.mycollection.domain.model.Photocard
+import com.albab.mycollection.view.photocard.details.EditPhotocardDialog
 import com.albab.mycollection.view.photocard.details.PhotocardDialog
 
 @Composable
 fun PhotocardList(
     photocards: List<Photocard>,
-    updateStatus: (Photocard) -> Unit,
+    updatePhotocard: (Photocard) -> Unit,
     deletePc: (Photocard) -> Unit,
     selected: Boolean,
     onPCSelected: (Boolean, Photocard) -> Unit
@@ -58,7 +59,7 @@ fun PhotocardList(
             items(photocards) { pc ->
                 PhotocardItem(
                     photocard = pc,
-                    updateStatus = { updateStatus(it) },
+                    updatePhotocard = { updatePhotocard(it) },
                     selected = selected,
                     onPCSelected = onPCSelected,
                     deletePc = deletePc
@@ -80,13 +81,14 @@ fun PhotocardList(
 @Composable
 fun PhotocardItem(
     photocard: Photocard,
-    updateStatus: (Photocard) -> Unit,
+    updatePhotocard: (Photocard) -> Unit,
     deletePc: (Photocard) -> Unit,
     selected: Boolean,
     onPCSelected: (Boolean, Photocard) -> Unit
 ) {
     val bitmap = ImageConverter.base64ToBitmap(photocard.image)
     var expanded by remember { mutableStateOf(false) }
+    var edit by remember { mutableStateOf(false) }
     var pcSelected by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.padding(8.dp)) {
@@ -166,14 +168,27 @@ fun PhotocardItem(
             onDismiss = { expanded = false },
             onEdit = {
                 expanded = false
+                edit = true
             },
             onDelete = {
                 deletePc(photocard)
                 expanded = false
             },
             updateStatus = {
-                updateStatus(it)
+                updatePhotocard(it)
                 expanded = false
             })
+    }
+
+    if (edit) {
+        EditPhotocardDialog(
+            photocard = photocard,
+            onDismiss = { edit = false },
+            onUpdate = { title, description ->
+                photocard.title = title
+                photocard.description = description
+                updatePhotocard(photocard)
+            }
+        )
     }
 }
