@@ -37,7 +37,7 @@ import com.albab.mycollection.config.util.PhotocardStatus
 import com.albab.mycollection.domain.model.Collection
 import com.albab.mycollection.domain.model.Photocard
 import com.albab.mycollection.view.common.MyTopApBar
-import com.albab.mycollection.view.photocard.AddPhotocardDialog
+import com.albab.mycollection.view.photocard.details.AddPhotocardDialog
 import com.albab.mycollection.view.photocard.PhotocardViewModel
 import com.albab.mycollection.view.photocard.list.PhotocardList
 

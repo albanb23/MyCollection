@@ -1,4 +1,4 @@
-package com.albab.mycollection.view.photocard
+package com.albab.mycollection.view.photocard.details
 
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.albab.mycollection.R
 import com.albab.mycollection.config.util.ImageConverter
+import com.albab.mycollection.view.photocard.PhotocardViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
