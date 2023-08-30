@@ -27,12 +27,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.albab.mycollection.config.util.PhotocardStatus
 import com.albab.mycollection.domain.model.Photocard
+import com.albab.mycollection.view.ui.theme.pastel_blue
+import com.albab.mycollection.view.ui.theme.pastel_green
+import com.albab.mycollection.view.ui.theme.pastel_orange
+import com.albab.mycollection.view.ui.theme.pastel_pink
+import com.albab.mycollection.view.ui.theme.pastel_purple
+import com.albab.mycollection.view.ui.theme.pastel_red
+import com.albab.mycollection.view.ui.theme.pastel_yellow
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -56,55 +64,70 @@ fun RotateButtonsAnimation(
         FABAnimated(
             degrees = 270F,
             start = start,
+            disabled = photocard.status == PhotocardStatus.RESERVED,
             onClick = {
-                photocard.status = PhotocardStatus.RESERVED
+                photocard.status =
+                    if (photocard.status != PhotocardStatus.RESERVED) PhotocardStatus.RESERVED else null
                 updateStatus(photocard)
             },
+            color = pastel_pink,
             icon = Icons.Filled.Bookmark
         )
         FABAnimated(
             degrees = 180F,
             start = start,
+            disabled = photocard.status == PhotocardStatus.PAID,
             onClick = {
-                photocard.status = PhotocardStatus.PAID
+                photocard.status =
+                    if (photocard.status != PhotocardStatus.PAID) PhotocardStatus.PAID else null
                 updateStatus(photocard)
             },
+            color = pastel_blue,
             icon = Icons.Filled.Paid
         )
         FABAnimated(
             degrees = 225F,
             start = start,
+            disabled = photocard.status == PhotocardStatus.SENT,
             onClick = {
-                photocard.status = PhotocardStatus.SENT
+                photocard.status =
+                    if (photocard.status != PhotocardStatus.SENT) PhotocardStatus.SENT else null
                 updateStatus(photocard)
             },
+            color = pastel_purple,
             icon = Icons.Filled.LocalShipping
         )
         FABAnimated(
             degrees = 135F,
             start = start,
+            disabled = photocard.status == PhotocardStatus.RECEIVED,
             onClick = {
-                photocard.status = PhotocardStatus.RECEIVED
+                photocard.status =
+                    if (photocard.status != PhotocardStatus.RECEIVED) PhotocardStatus.RECEIVED else null
                 updateStatus(photocard)
             },
+            color = pastel_green,
             icon = Icons.Filled.Done
-        )
-        FABAnimated(
-            degrees = 0F,
-            start = start,
-            onClick = onEdit,
-            icon = Icons.Filled.Edit
         )
         FABAnimated(
             degrees = 45F,
             start = start,
+            onClick = onEdit,
+            color = pastel_orange,
+            icon = Icons.Filled.Edit
+        )
+        FABAnimated(
+            degrees = 0F,
+            start = start,
             onClick = onDelete,
+            color = pastel_red,
             icon = Icons.Filled.Delete
         )
 
         //Button close
         FloatingActionButton(
             onClick = onClose,
+            backgroundColor = pastel_yellow,
             modifier = Modifier
                 .padding(top = 350.dp)
                 .size(60.dp)
@@ -119,6 +142,7 @@ fun RotateButtonsAnimation(
 fun FABAnimated(
     degrees: Float,
     start: Boolean,
+    disabled: Boolean = false,
     onClick: () -> Unit,
     icon: ImageVector,
     color: Color = MaterialTheme.colors.secondary,
@@ -140,6 +164,7 @@ fun FABAnimated(
                 translationX = x
                 translationY = y
             }
+            .alpha(if (disabled) 0.5f else 1f)
     ) {
         Icon(imageVector = icon, contentDescription = null)
     }

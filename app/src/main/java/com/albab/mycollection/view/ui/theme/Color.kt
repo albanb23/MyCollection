@@ -66,3 +66,18 @@ val md_theme_dark_scrim = Color(0xFF000000)
 
 
 val seed = Color(0xFF9527B5)
+
+val pastel_red = Color(0xFFFA8989)
+val red = Color(0xFFEC7063)
+val pastel_orange = Color(0xFFF8C471)
+val orange = Color(0xFFEB984E)
+val pastel_yellow = Color(0xFFFAF189)
+val yellow = Color(0xFFF4D03F)
+val pastel_green = Color(0xFFACF08E)
+val green = Color(0xFF90CF75)
+val pastel_blue = Color(0xFFB5E2EE)
+val blue = Color(0xFF85C1E9)
+val pastel_purple = Color(0xFFCAB5EE)
+val purple = Color(0xFFC39BD3)
+val pastel_pink = Color(0xFFF7CCEA)
+val pink = Color(0xFFF7AEE1)
