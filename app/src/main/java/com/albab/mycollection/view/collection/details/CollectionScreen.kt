@@ -3,6 +3,7 @@ package com.albab.mycollection.view.collection.details
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.albab.mycollection.view.collection.CollectionViewModel
@@ -19,8 +20,10 @@ fun CollectionScreen(
     navigateToPCTemplate: (String) -> Unit,
     onBackPressed: () -> Unit
 ) {
+    LaunchedEffect(Unit) {
+        collectionViewModel.collectionHasChild(collectionId)
+    }
     collectionViewModel.getCollectionById(collectionId)
-    collectionViewModel.collectionHasChild(collectionId)
     val collectionHasChild by collectionViewModel.hasChild.collectAsState()
     if (collectionHasChild) {
         collectionViewModel.getCollectionsByParent(collectionId)

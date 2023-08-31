@@ -186,7 +186,7 @@ fun AddPhotocardDialog(
                             ) else ButtonDefaults.filledTonalButtonColors()
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(imageVector = Icons.Default.Publish, contentDescription = null)
+                                Icon(imageVector = Icons.Default.Publish, contentDescription = "Load icon")
                                 Text(
                                     text = stringResource(id = R.string.load_image),
                                     modifier = Modifier.padding(horizontal = 8.dp)
@@ -195,7 +195,7 @@ fun AddPhotocardDialog(
                         }
                     } else {
                         Image(
-                            bitmap = bitmap!!.asImageBitmap(), contentDescription = null,
+                            bitmap = bitmap!!.asImageBitmap(), contentDescription = "Image",
                             modifier = Modifier
                                 .height(50.dp)
                                 .width(30.dp)

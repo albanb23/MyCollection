@@ -47,6 +47,9 @@ class CollectionViewModel @Inject constructor(
     private val _hasChild = MutableStateFlow(false)
     val hasChild: StateFlow<Boolean> get() = _hasChild
 
+    private val _collectionsSelected = MutableStateFlow<ArrayList<Collection>>(arrayListOf())
+    val collectionsSelected: StateFlow<ArrayList<Collection>> get() = _collectionsSelected
+
     val searchModelState = combine(
         searchText,
         matchedResults,
@@ -89,6 +92,21 @@ class CollectionViewModel @Inject constructor(
         viewModelScope.launch {
             _hasChild.value = collectionRepository.hasChild(collectionId)
         }
+    }
+
+    fun onCollectionSelected(selected: Boolean, collection: Collection) {
+        if (selected) {
+            _collectionsSelected.value.add(collection)
+        } else {
+            _collectionsSelected.value.remove(collection)
+        }
+    }
+
+    fun deleteSelectedCollections() {
+        for (collection in _collectionsSelected.value) {
+            deleteCollection(collection)
+        }
+        _collectionsSelected.value.clear()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

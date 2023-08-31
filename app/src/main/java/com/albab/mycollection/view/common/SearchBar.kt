@@ -70,12 +70,12 @@ fun MySearchBar(
         trailingIcon = {
             AnimatedVisibility(visible = showClearButton) {
                 IconButton(onClick = onTextCleared) {
-                    Icon(imageVector = Icons.Default.Close, contentDescription = null)
+                    Icon(imageVector = Icons.Default.Close, contentDescription = "Clear search")
                 }
             }
         },
         leadingIcon = {
-            Icon(imageVector = Icons.Default.Search, contentDescription = null)
+            Icon(imageVector = Icons.Default.Search, contentDescription = "Search icon")
         },
         placeholder = {
             Text(text = stringResource(id = R.string.search))

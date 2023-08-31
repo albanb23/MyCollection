@@ -21,7 +21,9 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material.rememberDismissState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -31,6 +33,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomStart
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterEnd
@@ -87,7 +93,7 @@ fun CollectionList(
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Delete,
-                                contentDescription = null,
+                                contentDescription = "Delete collection",
                                 tint = White,
                                 modifier = Modifier
                                     .padding(vertical = 8.dp, horizontal = 16.dp)
@@ -122,38 +128,60 @@ fun CollectionList(
 fun CollectionItem(
     collection: Collection,
     onCollectionClick: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    selected: Boolean = false,
+    onCollectionSelected: ((Boolean, Collection) -> Unit)? = null
 ) {
-    Card(
-        onClick = { onCollectionClick("${collection.collectionId}") },
-        shape = RoundedCornerShape(25.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        modifier = modifier.fillMaxWidth()
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .height(200.dp)
+    var collectionSelected by remember { mutableStateOf(false) }
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Card(
+            onClick = {
+                if (selected && onCollectionSelected != null) {
+                    collectionSelected = !collectionSelected
+                    onCollectionSelected(collectionSelected, collection)
+                } else {
+                    onCollectionClick("${collection.collectionId}")
+                }
+            },
+            shape = RoundedCornerShape(25.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+            modifier = modifier.fillMaxWidth()
         ) {
-            val bitmap: Bitmap? = collection.image?.let { ImageConverter.base64ToBitmap(it) }
-            if (bitmap != null) {
-                Image(
-                    bitmap = bitmap.asImageBitmap(),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.padding(bottom = 50.dp)
-                )
-            }
-            Column(
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(White)
-                    .align(BottomStart)
-                    .padding(16.dp)
+                    .fillMaxSize()
+                    .height(200.dp)
             ) {
-                Text(text = collection.title, style = MaterialTheme.typography.titleMedium)
-                Text(text = collection.description ?: "")
+                val bitmap: Bitmap? = collection.image?.let { ImageConverter.base64ToBitmap(it) }
+                if (bitmap != null) {
+                    Image(
+                        bitmap = bitmap.asImageBitmap(),
+                        contentDescription = "Image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.padding(bottom = 50.dp)
+                    )
+                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(White)
+                        .align(BottomStart)
+                        .padding(16.dp)
+                ) {
+                    Text(text = collection.title, style = MaterialTheme.typography.titleMedium)
+                    Text(text = collection.description ?: "")
+                }
             }
+        }
+        if (selected) {
+            Icon(
+                imageVector = if (collectionSelected) Icons.Default.CheckCircle else Icons.Default.RadioButtonUnchecked,
+                tint = MaterialTheme.colorScheme.primary,
+                contentDescription = "Selected icon",
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(16.dp)
+            )
         }
     }
 

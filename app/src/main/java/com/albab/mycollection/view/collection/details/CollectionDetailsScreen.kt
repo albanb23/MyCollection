@@ -53,6 +53,7 @@ fun CollectionDetailsScreen(
                         photocards = (pcUIState as PhotocardListUIState.Success).photocards[0].photocards,
                         addCollection = { title, description, image ->
                             collectionViewModel.addCollection(title, description, image, collection.collectionId)
+                            collectionViewModel.collectionHasChild("${collection.collectionId}")
                         },
                         photocardViewModel = photocardViewModel,
                         navigateToTemplate = navigateToTemplate,

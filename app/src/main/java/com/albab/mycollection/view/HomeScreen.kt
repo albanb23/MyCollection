@@ -80,7 +80,7 @@ fun AddCollectionFAB(onClickFAB: () -> Unit, modifier: Modifier = Modifier) {
     ) {
         Icon(
             imageVector = Icons.Default.Add,
-            contentDescription = null
+            contentDescription = "Add collection"
         )
     }
 }

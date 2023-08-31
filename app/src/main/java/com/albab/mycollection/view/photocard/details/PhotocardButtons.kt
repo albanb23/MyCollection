@@ -63,7 +63,7 @@ fun RotateButtonsAnimation(
     ) {
         Image(
             bitmap = bitmap.asImageBitmap(),
-            contentDescription = null,
+            contentDescription = "Image",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .clip(CircleShape)
@@ -141,7 +141,7 @@ fun RotateButtonsAnimation(
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_close),
-                contentDescription = null,
+                contentDescription = "Close",
                 modifier = Modifier.padding(14.dp)
             )
         }
@@ -178,7 +178,7 @@ fun FABAnimated(
     ) {
         Image(
             painter = painterResource(id = icon),
-            contentDescription = null,
+            contentDescription = "Icon",
             modifier = Modifier.padding(14.dp)
         )
     }

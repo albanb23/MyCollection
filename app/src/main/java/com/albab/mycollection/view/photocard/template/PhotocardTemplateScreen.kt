@@ -86,7 +86,7 @@ fun PhotocardTemplateScreen(
         IconButton(onClick = onSuccess, modifier = Modifier.padding(16.dp)) {
             Icon(
                 imageVector = Icons.Default.ArrowBack,
-                contentDescription = null,
+                contentDescription = "Back",
                 tint = Color.White
             )
         }
@@ -158,7 +158,7 @@ fun CropImage(
         ) {
             Image(
                 bitmap = image.asImageBitmap(),
-                contentDescription = null,
+                contentDescription = "Image",
                 modifier = Modifier
                     .fillMaxSize()
                     .onGloballyPositioned {

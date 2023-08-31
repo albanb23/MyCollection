@@ -103,7 +103,7 @@ fun AddCollectionDialog(
                     if (bitmap == null) {
                         FilledTonalButton(onClick = { launcher.launch("image/*") }) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(imageVector = Icons.Default.Publish, contentDescription = null)
+                                Icon(imageVector = Icons.Default.Publish, contentDescription = "Add image")
                                 Text(
                                     text = stringResource(id = R.string.load_image),
                                     modifier = Modifier.padding(horizontal = 8.dp)
@@ -123,7 +123,7 @@ fun AddCollectionDialog(
                         }
                     } else {
                         Image(
-                            bitmap = bitmap!!.asImageBitmap(), contentDescription = null,
+                            bitmap = bitmap!!.asImageBitmap(), contentDescription = "Image",
                             modifier = Modifier
                                 .height(40.dp)
                                 .width(90.dp)

@@ -54,6 +54,10 @@ fun ChildCollectionsListScreen(
                     collectionViewModel.addCollection(title, description, image, parentId)
                 },
                 onCollectionClick = onCollectionClick,
+                onCollectionSelected = { selected, col ->
+                    collectionViewModel.onCollectionSelected(selected, col)
+                },
+                deleteCollections = { collectionViewModel.deleteSelectedCollections() },
                 onBackPressed = onBackPressed
             )
 //            }

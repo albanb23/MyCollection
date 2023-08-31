@@ -73,7 +73,7 @@ fun CollectionDetails(
                     IconButton(onClick = { photocardViewModel.showAllClicked() }) {
                         Icon(
                             imageVector = if (showAll) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                            contentDescription = null
+                            contentDescription = "Show/Hide received"
                         )
                     }
                     Button(
@@ -140,7 +140,7 @@ fun CollectionDetails(
                         },
                         modifier = Modifier.padding(8.dp)
                     ) {
-                        Icon(imageVector = Icons.Default.Delete, contentDescription = null)
+                        Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete selected")
                     }
                 }
             }

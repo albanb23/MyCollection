@@ -4,7 +4,10 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -12,8 +15,13 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +29,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.albab.mycollection.R
 import com.albab.mycollection.domain.model.Collection
 import com.albab.mycollection.view.collection.AddCollectionDialog
 import com.albab.mycollection.view.collection.list.CollectionItem
@@ -33,15 +43,33 @@ fun ChildCollectionsList(
     collections: List<Collection>,
     addCollection: (String, String?, String?) -> Unit,
     onCollectionClick: (String) -> Unit,
+    onCollectionSelected: (Boolean, Collection) -> Unit,
+    deleteCollections: () -> Unit,
     onBackPressed: () -> Unit
 ) {
     var showAddCollectionDialog by rememberSaveable { mutableStateOf(false) }
+    var selected by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize()) {
         MyTopApBar(
             title = null,
             topIcon = Icons.Default.ArrowBack,
-            topAction = onBackPressed
+            topAction = onBackPressed,
+            optionAction = {
+                Row {
+                    Spacer(modifier = Modifier.weight(1f))
+                    Button(
+                        onClick = { selected = !selected }
+                    ) {
+                        Text(
+                            text = if (selected) stringResource(id = R.string.cancel) else stringResource(
+                                id = R.string.select
+                            ),
+                            style = MaterialTheme.typography.labelSmall
+                        )
+                    }
+                }
+            }
         )
         Box(modifier = Modifier.fillMaxSize()) {
             LazyVerticalGrid(
@@ -54,16 +82,40 @@ fun ChildCollectionsList(
                     CollectionItem(
                         collection = item,
                         onCollectionClick = onCollectionClick,
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier.padding(8.dp),
+                        selected = selected,
+                        onCollectionSelected = onCollectionSelected
                     )
                 }
             }
-            FloatingActionButton(
-                onClick = { showAddCollectionDialog = true }, modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp)
-            ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add collection")
+            if (selected) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                ) {
+                    Spacer(modifier = Modifier.weight(1f))
+                    IconButton(
+                        onClick = {
+                            deleteCollections()
+                            selected = false
+                        },
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete selected"
+                        )
+                    }
+                }
+            } else {
+                FloatingActionButton(
+                    onClick = { showAddCollectionDialog = true }, modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(16.dp)
+                ) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add collection")
+                }
             }
         }
     }

@@ -100,7 +100,7 @@ fun PhotocardItem(
             ) {
                 Image(
                     bitmap = bitmap.asImageBitmap(),
-                    contentDescription = null,
+                    contentDescription = "Photocard image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .height(120.dp)
@@ -120,7 +120,7 @@ fun PhotocardItem(
                     Icon(
                         imageVector = if (pcSelected) Icons.Default.CheckCircle else Icons.Default.RadioButtonUnchecked,
                         tint = MaterialTheme.colorScheme.primary,
-                        contentDescription = null,
+                        contentDescription = "Selected icon",
                         modifier = Modifier
                             .align(Alignment.TopEnd)
                             .padding(4.dp)
@@ -148,7 +148,7 @@ fun PhotocardItem(
                                 ) {
                                     Icon(
                                         imageVector = icon,
-                                        contentDescription = null,
+                                        contentDescription = "Status icon",
                                         modifier = Modifier.align(Alignment.Center)
                                     )
                                 }
