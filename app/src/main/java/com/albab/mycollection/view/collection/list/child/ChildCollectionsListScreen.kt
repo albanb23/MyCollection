@@ -9,6 +9,7 @@ import androidx.compose.runtime.produceState
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
+import com.albab.mycollection.domain.model.Collection
 import com.albab.mycollection.view.collection.CollectionViewModel
 import com.albab.mycollection.view.common.Loading
 import com.albab.mycollection.view.common.SearchModelState
@@ -17,7 +18,7 @@ import com.albab.mycollection.view.common.SearchModelState
 @Composable
 fun ChildCollectionsListScreen(
     collectionViewModel: CollectionViewModel,
-    parentId: Long?,
+    parent: Collection,
     onCollectionClick: (String) -> Unit,
     onBackPressed: () -> Unit
 ) {
@@ -50,12 +51,22 @@ fun ChildCollectionsListScreen(
 //                onTextCleared = { collectionViewModel.onSearchTextChanged("") }) {
             ChildCollectionsList(
                 collections = childCollections,
+                parent = parent,
                 addCollection = { title, description, image ->
-                    collectionViewModel.addCollection(title, description, image, parentId)
+                    collectionViewModel.addCollection(
+                        title,
+                        description,
+                        image,
+                        parent.collectionId
+                    )
                 },
                 onCollectionClick = onCollectionClick,
                 onCollectionSelected = { selected, col ->
                     collectionViewModel.onCollectionSelected(selected, col)
+                },
+                addToFavorite = {
+                    parent.favorite = it
+                    collectionViewModel.updateCollection(parent)
                 },
                 deleteCollections = { collectionViewModel.deleteSelectedCollections() },
                 onBackPressed = onBackPressed

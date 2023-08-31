@@ -41,6 +41,7 @@ fun MyCollectionNavHost(
         ) { navBackStackEntry ->
             val collectionId = navBackStackEntry.arguments?.getString(Collection.collectionIdArg)
             collectionId?.let { colId ->
+                collectionViewModel.getCollectionById(collectionId)
                 CollectionScreen(
                     collectionId = colId,
                     collectionViewModel = collectionViewModel,

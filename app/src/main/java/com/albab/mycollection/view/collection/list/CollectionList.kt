@@ -23,6 +23,7 @@ import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material.rememberDismissState
 import androidx.compose.material3.Card
@@ -52,6 +53,7 @@ import com.albab.mycollection.R
 import com.albab.mycollection.config.util.ImageConverter
 import com.albab.mycollection.domain.model.Collection
 import com.albab.mycollection.view.collection.CollectionViewModel
+import com.albab.mycollection.view.ui.theme.red
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -143,7 +145,7 @@ fun CollectionItem(
                     onCollectionClick("${collection.collectionId}")
                 }
             },
-            shape = RoundedCornerShape(25.dp),
+            shape = RoundedCornerShape(20.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
             modifier = modifier.fillMaxWidth()
         ) {
@@ -182,6 +184,17 @@ fun CollectionItem(
                     .align(Alignment.TopEnd)
                     .padding(16.dp)
             )
+        } else {
+            if (collection.favorite) {
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    tint = red,
+                    contentDescription = "Fav icon",
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(20.dp)
+                )
+            }
         }
     }
 

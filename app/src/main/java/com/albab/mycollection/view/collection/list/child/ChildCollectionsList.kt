@@ -16,6 +16,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -36,21 +38,25 @@ import com.albab.mycollection.domain.model.Collection
 import com.albab.mycollection.view.collection.AddCollectionDialog
 import com.albab.mycollection.view.collection.list.CollectionItem
 import com.albab.mycollection.view.common.MyTopApBar
+import com.albab.mycollection.view.ui.theme.red
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ChildCollectionsList(
     collections: List<Collection>,
+    parent: Collection,
     addCollection: (String, String?, String?) -> Unit,
     onCollectionClick: (String) -> Unit,
+    addToFavorite: (Boolean) -> Unit,
     onCollectionSelected: (Boolean, Collection) -> Unit,
     deleteCollections: () -> Unit,
     onBackPressed: () -> Unit
 ) {
     var showAddCollectionDialog by rememberSaveable { mutableStateOf(false) }
     var selected by rememberSaveable { mutableStateOf(false) }
+    var favorite by rememberSaveable { mutableStateOf(parent.favorite) }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         MyTopApBar(
             title = null,
             topIcon = Icons.Default.ArrowBack,
@@ -58,6 +64,18 @@ fun ChildCollectionsList(
             optionAction = {
                 Row {
                     Spacer(modifier = Modifier.weight(1f))
+                    if (!selected) {
+                        IconButton(onClick = {
+                            favorite = !favorite
+                            addToFavorite(favorite)
+                        }) {
+                            Icon(
+                                imageVector = if (favorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                                contentDescription = "Favorite",
+                                tint = if (favorite) red else MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    }
                     Button(
                         onClick = { selected = !selected }
                     ) {
@@ -70,6 +88,11 @@ fun ChildCollectionsList(
                     }
                 }
             }
+        )
+        Text(
+            text = parent.title,
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(vertical = 16.dp)
         )
         Box(modifier = Modifier.fillMaxSize()) {
             LazyVerticalGrid(
