@@ -44,11 +44,16 @@ fun CollectionDetailsScreen(
 
     when (collectionUiState) {
         is CollectionDetailsUIState.Success -> {
+            val collection = (collectionUiState as CollectionDetailsUIState.Success).collection
+
             when (pcUIState) {
                 is PhotocardListUIState.Success -> {
                     CollectionDetails(
-                        collection = (collectionUiState as CollectionDetailsUIState.Success).collection,
+                        collection = collection,
                         photocards = (pcUIState as PhotocardListUIState.Success).photocards[0].photocards,
+                        addCollection = { title, description, image ->
+                            collectionViewModel.addCollection(title, description, image, collection.collectionId)
+                        },
                         photocardViewModel = photocardViewModel,
                         navigateToTemplate = navigateToTemplate,
                         onBackPressed = onBackPressed

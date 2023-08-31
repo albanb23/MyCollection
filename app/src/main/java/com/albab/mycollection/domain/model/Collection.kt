@@ -5,9 +5,9 @@ import androidx.annotation.RequiresApi
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import java.time.LocalDateTime
-import kotlin.collections.Collection
 
 @Entity(
     foreignKeys = [
@@ -15,8 +15,8 @@ import kotlin.collections.Collection
             entity = Collection::class,
             parentColumns = ["collection_id"],
             childColumns = ["collection_parent_id"],
-            onDelete = ForeignKey.CASCADE,
-            onUpdate = ForeignKey.CASCADE
+            onDelete = CASCADE,
+            onUpdate = CASCADE
         )
     ]
 )
@@ -25,13 +25,12 @@ data class Collection(
     var description: String?,
     var image: String?,
     var modified: String,
+    @ColumnInfo(name = "collection_parent_id", index = true)
+    var collectionParentId: Long?
 ) {
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "collection_id")
+    @ColumnInfo(name = "collection_id", index = true)
     var collectionId: Long? = null
-
-    @ColumnInfo(name = "collection_parent_id")
-    var collectionParentId: Long? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     var created: String = LocalDateTime.now().toString()

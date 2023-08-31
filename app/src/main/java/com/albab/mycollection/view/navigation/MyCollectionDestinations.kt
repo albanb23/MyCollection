@@ -41,22 +41,6 @@ object Collection: MyCollectionDestinations {
     )
 }
 
-object Photocard: MyCollectionDestinations {
-    override val title: Int?
-        get() = null
-    override val icon: ImageVector?
-        get() = null
-    override val route: String
-        get() = "photocard"
-    override val showBottomBar: Boolean
-        get() = false
-    const val photocardIdArg = "id"
-    val routeWithArgs = "$route/{$photocardIdArg}"
-    val arguments = listOf(
-        navArgument(photocardIdArg) { type = NavType.StringType }
-    )
-}
-
 object PhotocardTemplate: MyCollectionDestinations {
     override val title: Int?
         get() = null

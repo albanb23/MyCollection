@@ -8,6 +8,7 @@ import com.albab.mycollection.domain.model.Collection
 import com.albab.mycollection.domain.repository.CollectionRepository
 import com.albab.mycollection.view.collection.details.CollectionDetailsUIState
 import com.albab.mycollection.view.collection.list.CollectionsUIState
+import com.albab.mycollection.view.collection.list.child.ChildCollectionsUIState
 import com.albab.mycollection.view.common.SearchModelState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,10 +38,14 @@ class CollectionViewModel @Inject constructor(
             )
 
     var collectionUiState: StateFlow<CollectionDetailsUIState>? = null
+    var childCollectionsUiState: StateFlow<ChildCollectionsUIState>? = null
 
     private var searchText: MutableStateFlow<String> = MutableStateFlow("")
     private var resultsFound: MutableStateFlow<Boolean> = MutableStateFlow(true)
     private var matchedResults: MutableStateFlow<List<Collection>> = MutableStateFlow(emptyList())
+
+    private val _hasChild = MutableStateFlow(false)
+    val hasChild: StateFlow<Boolean> get() = _hasChild
 
     val searchModelState = combine(
         searchText,
@@ -67,15 +72,35 @@ class CollectionViewModel @Inject constructor(
             )
     }
 
+    fun getCollectionsByParent(parentId: String) {
+        childCollectionsUiState = collectionRepository.getCollectionsByParent(parentId)
+            .map { child ->
+                ChildCollectionsUIState.Success(child)
+            }
+            .catch { ChildCollectionsUIState.Error(it) }
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                ChildCollectionsUIState.Loading
+            )
+    }
+
+    fun collectionHasChild(collectionId: String) {
+        viewModelScope.launch {
+            _hasChild.value = collectionRepository.hasChild(collectionId)
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    fun addCollection(name: String, description: String?, image: String?) {
+    fun addCollection(name: String, description: String?, image: String?, parentId: Long?) {
         viewModelScope.launch {
             collectionRepository.addCollection(
                 Collection(
                     name,
                     description,
                     image,
-                    LocalDateTime.now().toString()
+                    LocalDateTime.now().toString(),
+                    parentId
                 )
             )
         }

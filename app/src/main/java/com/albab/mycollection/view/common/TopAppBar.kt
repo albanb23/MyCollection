@@ -17,7 +17,7 @@ fun MyTopApBar(
     titleString: String? = null,
     topIcon: ImageVector,
     topAction: () -> Unit,
-    optionAction: @Composable () -> Unit,
+    optionAction: (@Composable () -> Unit)? = null,
 ) {
     CenterAlignedTopAppBar(
         title = {
@@ -41,7 +41,9 @@ fun MyTopApBar(
             }
         },
         actions = {
-            optionAction()
+            if (optionAction != null) {
+                optionAction()
+            }
         }
 //        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
 //            containerColor = MaterialTheme.colorScheme.secondaryContainer
