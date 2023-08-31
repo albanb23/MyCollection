@@ -30,6 +30,14 @@ class CollectionRepository @Inject constructor(
         }
     }
 
+    suspend fun updateCollection(collection: Collection) {
+        try {
+            collectionDao.updateCollection(collection)
+        } catch (e: Exception) {
+            throw Exception(e.message)
+        }
+    }
+
     fun getCollectionById(collectionId: String): Flow<Collection> {
         try {
             return collectionDao.getCollectionById(collectionId)

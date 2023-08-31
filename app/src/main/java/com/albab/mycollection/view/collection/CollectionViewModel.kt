@@ -117,6 +117,7 @@ class CollectionViewModel @Inject constructor(
                     name,
                     description,
                     image,
+                    false,
                     LocalDateTime.now().toString(),
                     parentId
                 )
@@ -127,6 +128,12 @@ class CollectionViewModel @Inject constructor(
     fun deleteCollection(collection: Collection) {
         viewModelScope.launch {
             collectionRepository.deleteCollection(collection)
+        }
+    }
+
+    fun updateCollection(collection: Collection) {
+        viewModelScope.launch {
+            collectionRepository.updateCollection(collection)
         }
     }
 

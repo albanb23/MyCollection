@@ -24,6 +24,7 @@ data class Collection(
     var title: String,
     var description: String?,
     var image: String?,
+    var favorite: Boolean,
     var modified: String,
     @ColumnInfo(name = "collection_parent_id", index = true)
     var collectionParentId: Long?

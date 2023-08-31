@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.albab.mycollection.domain.model.Collection
 import kotlinx.coroutines.flow.Flow
 
@@ -20,7 +21,13 @@ interface CollectionDao {
     @Delete
     suspend fun deleteCollection(collection: Collection)
 
+    @Update
+    suspend fun updateCollection(collection: Collection)
+
     @Query("select * from collection where collection_id = :collectionId")
     fun getCollectionById(collectionId: String): Flow<Collection>
+
+    @Query("select * from Collection where favorite = 1")
+    fun getFavoritesCollections(): Flow<List<Collection>>
 
 }

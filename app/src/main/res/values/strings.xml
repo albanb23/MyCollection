@@ -20,5 +20,6 @@
     <string name="add_photocard">Añadir una photocard</string>
     <string name="add_photocard_template">Añadir una plantilla</string>
     <string name="no_photocards_yet">¡Aún no hay ninguna photocard!</string>
+    <string name="add_photocard_or_collection">¡Añade más colecciones o photocards!</string>
     <string name="edit_photocard">Editar photocard</string>
 </resources>

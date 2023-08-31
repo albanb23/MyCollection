@@ -52,9 +52,15 @@ fun CollectionDetailsScreen(
                         collection = collection,
                         photocards = (pcUIState as PhotocardListUIState.Success).photocards[0].photocards,
                         addCollection = { title, description, image ->
-                            collectionViewModel.addCollection(title, description, image, collection.collectionId)
+                            collectionViewModel.addCollection(
+                                title,
+                                description,
+                                image,
+                                collection.collectionId
+                            )
                             collectionViewModel.collectionHasChild("${collection.collectionId}")
                         },
+                        updateCollection = { col -> collectionViewModel.updateCollection(col) },
                         photocardViewModel = photocardViewModel,
                         navigateToTemplate = navigateToTemplate,
                         onBackPressed = onBackPressed

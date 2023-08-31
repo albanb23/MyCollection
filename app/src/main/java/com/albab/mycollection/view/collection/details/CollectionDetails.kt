@@ -14,10 +14,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -43,6 +45,7 @@ import com.albab.mycollection.view.common.MyTopApBar
 import com.albab.mycollection.view.photocard.PhotocardViewModel
 import com.albab.mycollection.view.photocard.details.AddPhotocardDialog
 import com.albab.mycollection.view.photocard.list.PhotocardList
+import com.albab.mycollection.view.ui.theme.red
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -51,11 +54,13 @@ fun CollectionDetails(
     photocardViewModel: PhotocardViewModel,
     photocards: List<Photocard>,
     navigateToTemplate: (String) -> Unit,
+    updateCollection: (Collection) -> Unit,
     addCollection: (String, String?, String?) -> Unit,
     onBackPressed: () -> Unit
 ) {
     var showAddPhotocardDialog by rememberSaveable { mutableStateOf(false) }
     var showAddCollectionDialog by rememberSaveable { mutableStateOf(false) }
+    var favorite by rememberSaveable { mutableStateOf(collection.favorite) }
     var selected by rememberSaveable { mutableStateOf(false) }
     val showAll by photocardViewModel.showAll.collectAsState()
 
@@ -70,6 +75,19 @@ fun CollectionDetails(
             optionAction = {
                 Row {
                     Spacer(modifier = Modifier.weight(1f))
+                    if (!selected) {
+                        IconButton(onClick = {
+                            favorite = !favorite
+                            collection.favorite = favorite
+                            updateCollection(collection)
+                        }) {
+                            Icon(
+                                imageVector = if (favorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                                contentDescription = "Favorite",
+                                tint = if (favorite) red else MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    }
                     IconButton(onClick = { photocardViewModel.showAllClicked() }) {
                         Icon(
                             imageVector = if (showAll) Icons.Default.Visibility else Icons.Default.VisibilityOff,
@@ -77,7 +95,8 @@ fun CollectionDetails(
                         )
                     }
                     Button(
-                        onClick = { selected = !selected }
+                        onClick = { selected = !selected },
+                        modifier = Modifier.padding(horizontal = 8.dp)
                     ) {
                         Text(
                             text = if (selected) stringResource(id = R.string.cancel) else stringResource(
@@ -124,7 +143,7 @@ fun CollectionDetails(
                     },
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
-                        .padding(16.dp)
+                        .padding(bottom = 16.dp)
                 )
             } else {
                 Row(
@@ -140,7 +159,10 @@ fun CollectionDetails(
                         },
                         modifier = Modifier.padding(8.dp)
                     ) {
-                        Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete selected")
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete selected"
+                        )
                     }
                 }
             }

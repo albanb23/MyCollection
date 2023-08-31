@@ -70,7 +70,7 @@ fun PhotocardList(
     } else {
         Box(modifier = Modifier.fillMaxSize()) {
             Text(
-                text = stringResource(id = R.string.no_photocards_yet),
+                text = stringResource(id = R.string.add_photocard_or_collection),
                 modifier = Modifier
                     .padding(16.dp)
                     .align(Alignment.Center)
