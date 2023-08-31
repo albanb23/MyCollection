@@ -49,7 +49,7 @@ import com.albab.mycollection.config.util.ImageConverter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddCollectionDialog(
-    viewModel: CollectionViewModel,
+    addCollection: (String, String?, String?) -> Unit,
     onDismiss: () -> Unit
 ) {
     val context = LocalContext.current
@@ -139,7 +139,7 @@ fun AddCollectionDialog(
                     }
                     TextButton(onClick = {
                         if (title.isNotBlank()) {
-                            viewModel.addCollection(title, description, image)
+                            addCollection(title, description, image)
                             onDismiss()
                         } else {
                             titleError = true

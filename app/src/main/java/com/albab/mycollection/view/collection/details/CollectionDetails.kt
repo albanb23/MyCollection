@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Image
@@ -37,6 +38,7 @@ import com.albab.mycollection.R
 import com.albab.mycollection.config.util.PhotocardStatus
 import com.albab.mycollection.domain.model.Collection
 import com.albab.mycollection.domain.model.Photocard
+import com.albab.mycollection.view.collection.AddCollectionDialog
 import com.albab.mycollection.view.common.MyTopApBar
 import com.albab.mycollection.view.photocard.PhotocardViewModel
 import com.albab.mycollection.view.photocard.details.AddPhotocardDialog
@@ -49,9 +51,11 @@ fun CollectionDetails(
     photocardViewModel: PhotocardViewModel,
     photocards: List<Photocard>,
     navigateToTemplate: (String) -> Unit,
+    addCollection: (String, String?, String?) -> Unit,
     onBackPressed: () -> Unit
 ) {
     var showAddPhotocardDialog by rememberSaveable { mutableStateOf(false) }
+    var showAddCollectionDialog by rememberSaveable { mutableStateOf(false) }
     var selected by rememberSaveable { mutableStateOf(false) }
     val showAll by photocardViewModel.showAll.collectAsState()
 
@@ -112,6 +116,8 @@ fun CollectionDetails(
             }
             if (!selected) {
                 ButtonsLayout(
+                    showCollection = collection.collectionParentId == null && photocards.isEmpty(),
+                    onAddCollection = { showAddCollectionDialog = true },
                     onAddItem = { showAddPhotocardDialog = true },
                     onAddTemplate = {
                         navigateToTemplate("${collection.collectionId}")
@@ -153,15 +159,33 @@ fun CollectionDetails(
             }
         ) { showAddPhotocardDialog = false }
     }
+
+    if (showAddCollectionDialog) {
+        AddCollectionDialog(
+            addCollection = addCollection,
+            onDismiss = { showAddCollectionDialog = false }
+        )
+    }
 }
 
 @Composable
-fun ButtonsLayout(onAddItem: () -> Unit, onAddTemplate: () -> Unit, modifier: Modifier = Modifier) {
+fun ButtonsLayout(
+    showCollection: Boolean,
+    onAddCollection: () -> Unit,
+    onAddItem: () -> Unit,
+    onAddTemplate: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        if (showCollection) {
+            FloatingActionButton(onClick = { onAddCollection() }) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add collection")
+            }
+        }
         FloatingActionButton(onClick = { onAddItem() }) {
             Icon(imageVector = Icons.Default.Image, contentDescription = "Add item")
         }

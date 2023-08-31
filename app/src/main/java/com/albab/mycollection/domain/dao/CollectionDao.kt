@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CollectionDao {
 
-    @Query("select * from collection order by modified")
+    @Query("select * from collection where collection_parent_id is null")
     fun getAllCollections(): Flow<List<Collection>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

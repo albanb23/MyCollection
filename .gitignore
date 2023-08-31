@@ -17,3 +17,4 @@ local.properties
 /gradle/
 /.gradle/
 /builde/
+/app/schemas/

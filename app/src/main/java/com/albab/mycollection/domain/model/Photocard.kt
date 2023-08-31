@@ -27,7 +27,7 @@ data class Photocard(
     var image: String,
     var status: PhotocardStatus?,
     var modified: String,
-    @ColumnInfo(name = "collection_parent_id")
+    @ColumnInfo(name = "collection_parent_id", index = true)
     var collectionParentId: Long
 ) {
     @PrimaryKey(autoGenerate = true)
