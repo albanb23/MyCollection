@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">My Collection</string>
     <string name="home">Inicio</string>
+    <string name="settings">Ajustes</string>
+    <string name="favorites">Favoritos</string>
     <string name="accept">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="load_image">Cargar imagen</string>

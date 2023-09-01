@@ -1,7 +1,9 @@
 package com.albab.mycollection.view.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -57,15 +59,26 @@ object PhotocardTemplate: MyCollectionDestinations {
     )
 }
 
-object List: MyCollectionDestinations{
+object Favorites: MyCollectionDestinations{
     override val title: Int
-        get() = R.string.home
+        get() = R.string.favorites
     override val icon: ImageVector
-        get() = Icons.Default.Home
+        get() = Icons.Default.Favorite
     override val route: String
-        get() = "list"
+        get() = "favorites"
     override val showBottomBar: Boolean
         get() = true
 }
 
-val destinations = listOf(Home, List)
+object Settings: MyCollectionDestinations{
+    override val title: Int
+        get() = R.string.settings
+    override val icon: ImageVector
+        get() = Icons.Default.Settings
+    override val route: String
+        get() = "settings"
+    override val showBottomBar: Boolean
+        get() = true
+}
+
+val destinations = listOf(Home, Favorites, Settings)

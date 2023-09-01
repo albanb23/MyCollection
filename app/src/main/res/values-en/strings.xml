@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">My Collection</string>
     <string name="home">Home</string>
+    <string name="settings">Settings</string>
+    <string name="favorites">Favorites</string>
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
     <string name="load_image">Load image</string>

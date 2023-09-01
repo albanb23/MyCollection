@@ -66,6 +66,12 @@ fun MyCollectionNavHost(
                 )
             }
         }
+        composable(route = Favorites.route) {
+
+        }
+        composable(route = Settings.route) {
+
+        }
     }
 }
 
