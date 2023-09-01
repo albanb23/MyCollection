@@ -58,37 +58,35 @@ fun ChildCollectionsList(
 
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         MyTopApBar(
-            title = null,
             topIcon = Icons.Default.ArrowBack,
-            topAction = onBackPressed,
-            optionAction = {
-                Row {
-                    Spacer(modifier = Modifier.weight(1f))
-                    if (!selected) {
-                        IconButton(onClick = {
-                            favorite = !favorite
-                            addToFavorite(favorite)
-                        }) {
-                            Icon(
-                                imageVector = if (favorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                                contentDescription = "Favorite",
-                                tint = if (favorite) red else MaterialTheme.colorScheme.primary
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = { selected = !selected }
-                    ) {
-                        Text(
-                            text = if (selected) stringResource(id = R.string.cancel) else stringResource(
-                                id = R.string.select
-                            ),
-                            style = MaterialTheme.typography.labelSmall
+            topAction = onBackPressed
+        ) {
+            Row {
+                Spacer(modifier = Modifier.weight(1f))
+                if (!selected) {
+                    IconButton(onClick = {
+                        favorite = !favorite
+                        addToFavorite(favorite)
+                    }) {
+                        Icon(
+                            imageVector = if (favorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                            contentDescription = "Favorite",
+                            tint = if (favorite) red else MaterialTheme.colorScheme.primary
                         )
                     }
                 }
+                Button(
+                    onClick = { selected = !selected }
+                ) {
+                    Text(
+                        text = if (selected) stringResource(id = R.string.cancel) else stringResource(
+                            id = R.string.select
+                        ),
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                }
             }
-        )
+        }
         Text(
             text = parent.title,
             style = MaterialTheme.typography.titleLarge,

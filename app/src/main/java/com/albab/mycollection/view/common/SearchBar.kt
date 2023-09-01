@@ -3,6 +3,7 @@ package com.albab.mycollection.view.common
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -40,16 +41,18 @@ fun SearchScreen(
     onTextCleared: () -> Unit,
     results: @Composable () -> Unit = {}
 ) {
-    MySearchBar(
-        searchText = searchText,
-        onTextChanged = onTextChanged,
-        onTextCleared = onTextCleared,
-        modifier = modifier.padding(16.dp)
-    )
-    if (matchesFound) {
-        results()
-    } else {
-        NoSearchResults()
+    Column(Modifier.fillMaxSize()) {
+        MySearchBar(
+            searchText = searchText,
+            onTextChanged = onTextChanged,
+            onTextCleared = onTextCleared,
+            modifier = modifier.padding(16.dp)
+        )
+        if (matchesFound) {
+            results()
+        } else {
+            NoSearchResults()
+        }
     }
 
 }

@@ -68,46 +68,44 @@ fun CollectionDetails(
 
     Column(Modifier.fillMaxSize()) {
         MyTopApBar(
-            title = null,
-            titleString = collection.title,
+            title = collection.title,
             topIcon = Icons.Default.ArrowBack,
-            topAction = onBackPressed,
-            optionAction = {
-                Row {
-                    Spacer(modifier = Modifier.weight(1f))
-                    if (!selected) {
-                        IconButton(onClick = {
-                            favorite = !favorite
-                            collection.favorite = favorite
-                            updateCollection(collection)
-                        }) {
-                            Icon(
-                                imageVector = if (favorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                                contentDescription = "Favorite",
-                                tint = if (favorite) red else MaterialTheme.colorScheme.primary
-                            )
-                        }
-                    }
-                    IconButton(onClick = { photocardViewModel.showAllClicked() }) {
+            topAction = onBackPressed
+        ) {
+            Row {
+                Spacer(modifier = Modifier.weight(1f))
+                if (!selected) {
+                    IconButton(onClick = {
+                        favorite = !favorite
+                        collection.favorite = favorite
+                        updateCollection(collection)
+                    }) {
                         Icon(
-                            imageVector = if (showAll) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                            contentDescription = "Show/Hide received"
-                        )
-                    }
-                    Button(
-                        onClick = { selected = !selected },
-                        modifier = Modifier.padding(horizontal = 8.dp)
-                    ) {
-                        Text(
-                            text = if (selected) stringResource(id = R.string.cancel) else stringResource(
-                                id = R.string.select
-                            ),
-                            style = MaterialTheme.typography.labelSmall
+                            imageVector = if (favorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                            contentDescription = "Favorite",
+                            tint = if (favorite) red else MaterialTheme.colorScheme.primary
                         )
                     }
                 }
+                IconButton(onClick = { photocardViewModel.showAllClicked() }) {
+                    Icon(
+                        imageVector = if (showAll) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                        contentDescription = "Show/Hide received"
+                    )
+                }
+                Button(
+                    onClick = { selected = !selected },
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                ) {
+                    Text(
+                        text = if (selected) stringResource(id = R.string.cancel) else stringResource(
+                            id = R.string.select
+                        ),
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                }
             }
-        )
+        }
         Box(
             modifier = Modifier
                 .fillMaxSize()

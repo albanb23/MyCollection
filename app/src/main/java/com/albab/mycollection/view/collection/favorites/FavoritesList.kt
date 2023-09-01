@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.albab.mycollection.domain.model.Collection
 import com.albab.mycollection.view.collection.list.CollectionItem
@@ -25,11 +26,10 @@ fun FavoritesList(
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
             MyTopApBar(
-                title = Favorites.title,
+                title = stringResource(id = Favorites.title),
                 topIcon = Icons.Default.Menu,
-                topAction = {},
-                optionAction = {}
-            )
+                topAction = {}
+            ) {}
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
                 modifier = Modifier.padding(8.dp)

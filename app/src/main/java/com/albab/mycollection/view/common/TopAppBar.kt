@@ -7,31 +7,22 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTopApBar(
-    title: Int?,
-    titleString: String? = null,
+    title: String = "",
     topIcon: ImageVector,
     topAction: () -> Unit,
-    optionAction: (@Composable () -> Unit)? = null,
+    optionAction: @Composable () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
         title = {
-            if (titleString==null) {
-                Text(
-                    text = title?.let { stringResource(id = title) } ?: "",
-                    textAlign = TextAlign.Center
-                )
-            } else {
-                Text(
-                    text = titleString,
-                    textAlign = TextAlign.Center
-                )
-            }
+            Text(
+                text = title,
+                textAlign = TextAlign.Center
+            )
         },
         navigationIcon = {
             IconButton(onClick = topAction) {
@@ -40,11 +31,7 @@ fun MyTopApBar(
                 )
             }
         },
-        actions = {
-            if (optionAction != null) {
-                optionAction()
-            }
-        }
+        actions = { optionAction() }
 //        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
 //            containerColor = MaterialTheme.colorScheme.secondaryContainer
 //        )
