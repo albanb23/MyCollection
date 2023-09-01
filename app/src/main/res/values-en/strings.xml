@@ -10,6 +10,18 @@
     <string name="search">Search</string>
     <string name="no_search_results_found">No results found</string>
     <string name="select">Select</string>
+    <string name="or">o</string>
+
+    <!--Login-->
+    <string name="login">Login</string>
+    <string name="login_google">Login with Google</string>
+    <string name="login_title">Login to your account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="no_account">Don\'t have an account?</string>
+    <string name="signup">Sing Up</string>
 
     <!--Collection-->
     <string name="my_collections">My collections</string>

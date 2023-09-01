@@ -9,6 +9,18 @@
     <string name="search">Buscar</string>
     <string name="no_search_results_found">No hay resultados</string>
     <string name="select">Seleccionar</string>
+    <string name="or">o</string>
+
+    <!--Login-->
+    <string name="login">Inicia sesión</string>
+    <string name="login_google">Inicia sesión con Google</string>
+    <string name="login_title">Inicia sesión con tu cuenta</string>
+    <string name="email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="remember_me">Recuérdame</string>
+    <string name="forgot_password">Olvidé la contraseña</string>
+    <string name="no_account">¿No tienes cuenta?</string>
+    <string name="signup">Registrate</string>
 
     <!--Collection-->
     <string name="my_collections">Mis colecciones</string>
