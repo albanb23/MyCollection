@@ -5,12 +5,14 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.albab.mycollection.view.HomeScreen
 import com.albab.mycollection.view.collection.CollectionViewModel
 import com.albab.mycollection.view.collection.details.CollectionScreen
+import com.albab.mycollection.view.collection.favorites.FavoritesListScreen
 import com.albab.mycollection.view.photocard.PhotocardViewModel
 import com.albab.mycollection.view.photocard.template.PhotocardTemplateScreen
 
@@ -67,7 +69,11 @@ fun MyCollectionNavHost(
             }
         }
         composable(route = Favorites.route) {
-
+            collectionViewModel.getFavoriteCollections()
+            FavoritesListScreen(
+                collectionViewModel = collectionViewModel,
+                onCollectionClick = { navHostController.navigateToCollection(it) }
+            )
         }
         composable(route = Settings.route) {
 
@@ -82,3 +88,14 @@ private fun NavHostController.navigateToCollection(collectionId: String) {
 private fun NavHostController.navigateToPCTemplate(collectionId: String) {
     this.navigate("${PhotocardTemplate.route}/$collectionId")
 }
+
+fun NavHostController.navigateSingleTopTo(route: String) =
+    this.navigate(route) {
+        popUpTo(
+            this@navigateSingleTopTo.graph.findStartDestination().id
+        ) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
+    }

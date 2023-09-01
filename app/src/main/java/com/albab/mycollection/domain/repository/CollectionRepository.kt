@@ -61,4 +61,12 @@ class CollectionRepository @Inject constructor(
             throw Exception(e.message)
         }
     }
+
+    fun getFavorites(): Flow<List<Collection>> {
+        try {
+            return collectionDao.getFavoritesCollections()
+        } catch (e: Exception) {
+            throw Exception(e.message)
+        }
+    }
 }

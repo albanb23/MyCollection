@@ -4,7 +4,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -34,15 +36,7 @@ fun HomeScreen(
 ) {
     var showAddDialog by rememberSaveable { mutableStateOf(false) }
     Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-        ) {
-//            Text(
-//                text = stringResource(id = R.string.my_collections),
-//                style = MaterialTheme.typography.titleLarge,
-//                modifier = Modifier.padding(16.dp)
-//            )
+        Column(modifier = modifier.fillMaxSize()) {
             MyTopApBar(
                 title = Home.title,
                 topIcon = Icons.Default.Menu,
@@ -53,6 +47,7 @@ fun HomeScreen(
                 collectionViewModel = collectionViewModel,
                 onCollectionClick = onCollectionClick
             )
+            Spacer(modifier = Modifier.height(50.dp))
         }
         AddCollectionFAB(
             onClickFAB = { showAddDialog = true },

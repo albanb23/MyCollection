@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.albab.mycollection.domain.model.Collection
 import com.albab.mycollection.domain.repository.CollectionRepository
 import com.albab.mycollection.view.collection.details.CollectionDetailsUIState
+import com.albab.mycollection.view.collection.favorites.FavoritesUIState
 import com.albab.mycollection.view.collection.list.CollectionsUIState
 import com.albab.mycollection.view.collection.list.child.ChildCollectionsUIState
 import com.albab.mycollection.view.common.SearchModelState
@@ -39,6 +40,7 @@ class CollectionViewModel @Inject constructor(
 
     var collectionUiState: StateFlow<CollectionDetailsUIState>? = null
     var childCollectionsUiState: StateFlow<ChildCollectionsUIState>? = null
+    var favoritesUIState: StateFlow<FavoritesUIState>? = null
 
     private var searchText: MutableStateFlow<String> = MutableStateFlow("")
     private var resultsFound: MutableStateFlow<Boolean> = MutableStateFlow(true)
@@ -85,6 +87,19 @@ class CollectionViewModel @Inject constructor(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(5000),
                 ChildCollectionsUIState.Loading
+            )
+    }
+
+    fun getFavoriteCollections() {
+        favoritesUIState = collectionRepository.getFavorites()
+            .map { fav ->
+                FavoritesUIState.Success(fav)
+            }
+            .catch { FavoritesUIState.Error(it) }
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                FavoritesUIState.Loading
             )
     }
 

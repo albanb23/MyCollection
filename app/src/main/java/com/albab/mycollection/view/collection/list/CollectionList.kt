@@ -48,6 +48,7 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.albab.mycollection.R
 import com.albab.mycollection.config.util.ImageConverter
@@ -170,8 +171,17 @@ fun CollectionItem(
                         .align(BottomStart)
                         .padding(16.dp)
                 ) {
-                    Text(text = collection.title, style = MaterialTheme.typography.titleMedium)
-                    Text(text = collection.description ?: "")
+                    Text(
+                        text = collection.title,
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        text = collection.description ?: "",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 }
             }
         }

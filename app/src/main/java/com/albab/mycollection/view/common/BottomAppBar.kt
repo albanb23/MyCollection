@@ -8,12 +8,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.albab.mycollection.view.navigation.destinations
+import com.albab.mycollection.view.navigation.navigateSingleTopTo
 
 @Composable
-fun MyBottomAppBar(navController: NavController) {
+fun MyBottomAppBar(navController: NavHostController) {
     val currentBackStack by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStack?.destination
     val currentScreen = destinations.find { it.route == currentDestination?.route }
@@ -41,11 +42,9 @@ fun MyBottomAppBar(navController: NavController) {
                 alwaysShowLabel = false,
                 onClick = {
                     if (currentScreen?.route != screen.route) {
-                        navController.navigate(screen.route)
+                        navController.navigateSingleTopTo(screen.route)
                     }
-                },
-//                selectedContentColor = MaterialTheme.colorScheme.secondary,
-//                unselectedContentColor = MaterialTheme.colorScheme.outlineVariant
+                }
             )
         }
     }
